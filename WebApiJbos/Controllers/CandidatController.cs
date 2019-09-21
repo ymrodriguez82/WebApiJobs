@@ -49,7 +49,7 @@ namespace WebApIJbos.Controllers
                 await context.SaveChangesAsync();
                 //Retour OK et un objet de tipo candidat, Alors on fait redirection au method GetById
                 //return CreatedAtAction(nameof(GetById), new { id = candidat.Id }, candidat);
-                return new CreatedAtRouteResult("GetById", new { id = candidat.Id }, candidat);
+                return new CreatedAtRouteResult("GetById", new { id = candidat.Id_Condidat }, candidat);
             }
             else
             {
@@ -61,7 +61,7 @@ namespace WebApIJbos.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult>Put(long id, [FromBody] Candidat candidat)
         {
-            if (id != candidat.Id)
+            if (id != candidat.Id_Condidat)
             {
                 return BadRequest();
             }

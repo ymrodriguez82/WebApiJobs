@@ -13,6 +13,5 @@ namespace WebApiJobs.Modele
         public string Adresse { get; set; }
         public string Description { get; set; }
 
-
     }
 }

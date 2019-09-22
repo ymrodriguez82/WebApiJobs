@@ -24,14 +24,14 @@ namespace WebApIJbos.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Candidat>>> GetAll()
         {
-            return await context.Candidats.ToListAsync();
+            return await context.Candidat.ToListAsync();
         }
-
+       
         // GET: api/Candidat/5
         [HttpGet("{id}", Name = "GetById")]
-        public async Task<ActionResult<Candidat>> GetById(long id)
+        public async Task<ActionResult<Candidat>> GetById(int id)
         {
-            var candidat = await context.Candidats.FindAsync(id);
+            var candidat = await context.Candidat.FindAsync(id);
             if (candidat == null)
             {
                 return NotFound();
@@ -45,11 +45,11 @@ namespace WebApIJbos.Controllers
         {
             if (ModelState.IsValid)
             {
-                context.Candidats.Add(candidat);
+                context.Candidat.Add(candidat);
                 await context.SaveChangesAsync();
                 //Retour OK et un objet de tipo candidat, Alors on fait redirection au method GetById
                 //return CreatedAtAction(nameof(GetById), new { id = candidat.Id }, candidat);
-                return new CreatedAtRouteResult("GetById", new { id = candidat.Id_Condidat }, candidat);
+                return new CreatedAtRouteResult("GetById", new { id = candidat.Id_candidat }, candidat);
             }
             else
             {
@@ -59,9 +59,9 @@ namespace WebApIJbos.Controllers
 
         // PUT: api/Candidat/5
         [HttpPut("{id}")]
-        public async Task<IActionResult>Put(long id, [FromBody] Candidat candidat)
+        public async Task<IActionResult>Put(int id, [FromBody] Candidat candidat)
         {
-            if (id != candidat.Id_Condidat)
+            if (id != candidat.Id_candidat)
             {
                 return BadRequest();
             }
@@ -72,15 +72,15 @@ namespace WebApIJbos.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
             //IActionResult interface que permettre de retourner entre autres NotFound
-            var candidat = await context.Candidats.FindAsync(id);
+            var candidat = await context.Candidat.FindAsync(id);
             if (candidat == null)
             {
                 return NotFound();
             }
-            context.Candidats.Remove(candidat);
+            context.Candidat.Remove(candidat);
             await context.SaveChangesAsync();
             return Ok();
         }

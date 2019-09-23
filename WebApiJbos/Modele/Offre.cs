@@ -7,11 +7,14 @@ namespace WebApiJobs.Modele
 {
     public class Offre
     {
-        public long Id { get;  }
+        public string Id_offre { get; set; }
         public string Titre { get; set; }
-        public string Compagnie { get; set; }
-        public string Adresse { get; set; }
-        public string Description { get; set; }
+        public string Companie { get; set; }
+        public string Location { get; set; }
+        public DateTime Date_offre { get; set; }
+        public string Descr { get; set; }
+        public string Url { get; set; }
+        public List<Favoris> Favorites { get; set; }
 
     }
 }

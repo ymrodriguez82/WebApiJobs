@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiJobs.Modele;
 
 namespace WebApiJbos.Modele
 {
@@ -16,6 +17,7 @@ namespace WebApiJbos.Modele
         public string Mot_passe { get; set; }
         public string Tel { get; set; }
         public string Statut { get; set; }
+        public List<Favoris> Favorites { get; set; }
 
     }
 }

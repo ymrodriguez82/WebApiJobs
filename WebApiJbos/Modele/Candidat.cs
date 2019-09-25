@@ -19,5 +19,10 @@ namespace WebApiJbos.Modele
         public string Statut { get; set; }
         public List<Favoris> Favorites { get; set; }
 
+        public Candidat()
+        {
+            Favorites = new List<Favoris>();
+        }
+
     }
 }

@@ -19,27 +19,31 @@ namespace WebApIJbos.Controllers
         {
             this.context = context;
         }
-
+        //Methode qui retourne la liste de Candidats avec ses favorites respectivament
         // GET: api/Candidat
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Candidat>>> GetAll()
         {
-            return await context.Candidat.ToListAsync();
+            return await context.Candidat.Include(x => x.Favorites).ToListAsync();
         }
        
         // GET: api/Candidat/5
-        [HttpGet("{id}", Name = "GetById")]
+        //Methode qui retourne le candidat avec ses informations plus sa liste de favorites
+        [HttpGet("fav/{id}", Name = "GetById")]
         public async Task<ActionResult<Candidat>> GetById(int id)
         {
-            var candidat = await context.Candidat.FindAsync(id);
+            //var candidat = context.Candidat.Where(x => x.Id_candidat == id).Include(x => x.Favorites).ToList();
+                
+            var candidat = context.Candidat.Include(x => x.Favorites).FirstOrDefault(x => x.Id_candidat == id);
             if (candidat == null)
             {
                 return NotFound();
             }
-            return candidat;
+            return new ObjectResult(candidat);
         }
 
         // POST: api/Candidat
+        //Methode pour insere un nouveau candidat
         [HttpPost]
         public async Task<ActionResult<Candidat>>Post([FromBody] Candidat candidat)
         {
@@ -58,6 +62,7 @@ namespace WebApIJbos.Controllers
         }
 
         // PUT: api/Candidat/5
+        //Methode pour modifier les informations d'un candidat
         [HttpPut("{id}")]
         public async Task<IActionResult>Put(int id, [FromBody] Candidat candidat)
         {
@@ -71,6 +76,7 @@ namespace WebApIJbos.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        //Methode pour delete un candidat
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

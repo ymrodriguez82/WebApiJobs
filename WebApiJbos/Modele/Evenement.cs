@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,9 +18,12 @@ namespace WebApiJobs.Modele
         public string Heure{ get; set; }
         public string Adresse { get; set; }
         public string Descr { get; set; }
-        
+        //proprite de navitation
+        [JsonIgnore]
         public Candidat Candidat { get; set; }
+        [JsonIgnore]
         public Offre Offre { get; set; }
+        [JsonIgnore]
         public Contact Contact { get; set; }
         public List<Rappel> Rappels { get; set; }
 

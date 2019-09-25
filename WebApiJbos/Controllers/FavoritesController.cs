@@ -29,17 +29,19 @@ namespace WebApiJobs.Controllers
         }
 
         // GET: api/Favorites/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Favoris>> GetFavorite(int id)
+        // Method qui obtient de la liste de favorit pour chaque candidat
+        [HttpGet("fav/{id}")]
+        public async Task<ActionResult<List<Favoris>>> GetFavorite(int id)
         {
-            var favorite = await _context.Favoris.FindAsync(id);
+            //var favorite = await _context.Favoris.FindAsync(id);
+            var favorite = _context.Favoris.Where(x => x.Id_candidat == id).Include(x => x.Offre);
 
             if (favorite == null)
             {
                 return NotFound();
             }
 
-            return favorite;
+            return favorite.ToList();
         }
 
         // PUT: api/Favorites/5

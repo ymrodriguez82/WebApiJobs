@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,11 @@ namespace WebApiJobs.Modele
         public string Id_offre { get; set; }
         public DateTime Date_favoris { get; set; }
         public decimal Postule { get; set; }
+        //proprite de navitation
+        [JsonIgnore]
+        public Candidat Candidat { get; set; }
+        [JsonIgnore]
+        public Offre Offre { get; set; }
 
     }
 }

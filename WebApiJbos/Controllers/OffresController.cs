@@ -74,12 +74,21 @@ namespace WebApiJobs.Controllers
 
         // POST: api/Offres
         [HttpPost]
-        public async Task<ActionResult<Offre>> PostOffre(Offre offre)
+        public async Task<ActionResult<int>> PostOffre(Offre offre)
         {
-            _context.Offre.Add(offre);
-            await _context.SaveChangesAsync();
+            int result;
 
-            return CreatedAtAction("GetOffre", new { id = offre.Id_offre }, offre);
+            if (!OffreExists(offre.Id_offre))
+            {
+                _context.Offre.Add(offre);
+                await _context.SaveChangesAsync();
+                result = 1;
+
+                // return CreatedAtAction("GetOffre", new { id = offre.Id_offre }, offre);
+                return result;
+            }
+            result = 0;
+            return result;
         }
 
         // DELETE: api/Offres/5

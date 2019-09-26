@@ -37,7 +37,7 @@ namespace WebApIJbos.Controllers
         [HttpGet("fav/{id}", Name = "GetFavorisById")]
         public async Task<ActionResult<CandidatFavoris>> GetFavorisById(int id)
         {
-             var list = (from c in context.Candidat
+             var list = await (from c in context.Candidat
                         join ord in context.Favoris on c.Id_candidat equals ord.Id_candidat into c_o
                         from t in c_o.DefaultIfEmpty()
                         join off in context.Offre on t.Id_offre equals off.Id_offre into f_o
@@ -48,13 +48,13 @@ namespace WebApIJbos.Controllers
                             Titre = o.Titre,
                             Companie = o.Companie,
                             Location = o.Location,
-                            Date_offre = o.Date_offre,
+                            Date_offre = o.Date_offre.ToShortDateString(),
                             Descr = o.Descr,
                             Url = o.Url,
                             Postule = t.Postule,
-                            Date_favoris = t.Date_favoris
+                            Date_favoris = t.Date_favoris.ToShortDateString()
                         }).
-                        ToList();
+                        ToListAsync();
 
             if (list == null)
             {
@@ -67,19 +67,20 @@ namespace WebApIJbos.Controllers
         [HttpGet("authen/{user}/{pass}", Name = "IsAuthentified")]
         public async Task<ActionResult<Candidat>> IsAuthentified(string user, string pass)
         {
-            
-            var result = (from c in context.Candidat
-                          where (c.Courriel == user) && (c.Mot_passe == pass)
-                          select new Candidat()
-                          {
-                              Id_candidat = c.Id_candidat,
-                              Nom_candidat = c.Nom_candidat,
-                              Prenom_candidat=c.Prenom_candidat,
-                              Courriel=c.Courriel,
-                              Tel=c.Tel,
-                              Statut=c.Statut
 
-                          }).ToList();                     
+            var result = await (from c in context.Candidat
+                          where (c.Courriel == user) && (c.Mot_passe == pass)
+                          select c).ToListAsync();
+                          //select new Candidat()
+                          //{
+                          //    Id_candidat = c.Id_candidat,
+                          //    Nom_candidat = c.Nom_candidat,
+                          //    Prenom_candidat=c.Prenom_candidat,
+                          //    Courriel=c.Courriel,
+                          //    Tel=c.Tel,
+                          //    Statut=c.Statut
+
+                          //}).ToList();                     
                         
 
                 return new ObjectResult(result);

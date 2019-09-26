@@ -10,10 +10,10 @@ namespace WebApiJbos.Modele
         public string Titre { get; set; }
         public string Companie { get; set; }
         public string Location { get; set; }
-        public DateTime Date_offre { get; set; }
+        public string Date_offre { get; set; }
         public string Descr { get; set; }
         public string Url { get; set; }
         public decimal Postule { get; set; }
-        public DateTime Date_favoris { get; set; }
+        public string Date_favoris { get; set; }
     }
 }

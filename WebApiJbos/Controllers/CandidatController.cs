@@ -27,19 +27,36 @@ namespace WebApIJbos.Controllers
             return await context.Candidat.Include(x => x.Favorites).ToListAsync();
         }
        
-        // GET: api/Candidat/5
-        //Methode qui retourne le candidat avec ses informations plus sa liste de favorites
-        [HttpGet("fav/{id}", Name = "GetById")]
-        public async Task<ActionResult<Candidat>> GetById(int id)
+        // GET: api/Candidat/fav/5
+        //Methode qui retourne les offres favorites d'un candidat
+        [HttpGet("fav/{id}", Name = "GetFavorisById")]
+        public async Task<ActionResult<CandidatFavoris>> GetFavorisById(int id)
         {
-            //var candidat = context.Candidat.Where(x => x.Id_candidat == id).Include(x => x.Favorites).ToList();
-                
-            var candidat = context.Candidat.Include(x => x.Favorites).FirstOrDefault(x => x.Id_candidat == id);
-            if (candidat == null)
+             var list = (from c in context.Candidat
+                        join ord in context.Favoris on c.Id_candidat equals ord.Id_candidat into c_o
+                        from t in c_o.DefaultIfEmpty()
+                        join off in context.Offre on t.Id_offre equals off.Id_offre into f_o
+                        from o in f_o.DefaultIfEmpty()
+                        where t.Id_candidat == id
+                        select new CandidatFavoris()
+                        {
+                            Titre = o.Titre,
+                            Companie = o.Companie,
+                            Location = o.Location,
+                            Date_offre = o.Date_offre,
+                            Descr = o.Descr,
+                            Url = o.Url,
+                            Postule = t.Postule,
+                            Date_favoris = t.Date_favoris
+                        }).
+                        ToList();
+
+            if (list == null)
             {
                 return NotFound();
             }
-            return new ObjectResult(candidat);
+
+            return new ObjectResult(list);
         }
 
         // POST: api/Candidat

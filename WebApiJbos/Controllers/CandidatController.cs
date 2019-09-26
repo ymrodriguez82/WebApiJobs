@@ -19,14 +19,19 @@ namespace WebApIJbos.Controllers
         {
             this.context = context;
         }
+
+
+
         //Methode qui retourne la liste de Candidats avec ses favorites respectivament
-        // GET: api/Candidat
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Candidat>>> GetAll()
         {
             return await context.Candidat.Include(x => x.Favorites).ToListAsync();
         }
        
+
+
+
         // GET: api/Candidat/fav/5
         //Methode qui retourne les offres favorites d'un candidat
         [HttpGet("fav/{id}", Name = "GetFavorisById")]
@@ -59,6 +64,29 @@ namespace WebApIJbos.Controllers
             return new ObjectResult(list);
         }
 
+        [HttpGet("authen/{user}/{pass}", Name = "IsAuthentified")]
+        public async Task<ActionResult<Candidat>> IsAuthentified(string user, string pass)
+        {
+            
+            var result = (from c in context.Candidat
+                          where (c.Courriel == user) && (c.Mot_passe == pass)
+                          select new Candidat()
+                          {
+                              Id_candidat = c.Id_candidat,
+                              Nom_candidat = c.Nom_candidat,
+                              Prenom_candidat=c.Prenom_candidat,
+                              Courriel=c.Courriel,
+                              Tel=c.Tel,
+                              Statut=c.Statut
+
+                          }).ToList();                     
+                        
+
+                return new ObjectResult(result);
+
+        }
+
+
         // POST: api/Candidat
         //Methode pour insere un nouveau candidat
         [HttpPost]
@@ -78,6 +106,8 @@ namespace WebApIJbos.Controllers
             }
         }
 
+
+
         // PUT: api/Candidat/5
         //Methode pour modifier les informations d'un candidat
         [HttpPut("{id}")]
@@ -91,6 +121,8 @@ namespace WebApIJbos.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
+
+
 
         // DELETE: api/ApiWithActions/5
         //Methode pour delete un candidat
@@ -107,5 +139,10 @@ namespace WebApIJbos.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
+
+
+
+
+
     }
 }

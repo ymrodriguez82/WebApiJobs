@@ -70,7 +70,7 @@ namespace WebApIJbos.Controllers
 
             var result = await (from c in context.Candidat
                           where (c.Courriel == user) && (c.Mot_passe == pass)
-                          select c).ToListAsync();
+                          select c).SingleAsync();
                           //select new Candidat()
                           //{
                           //    Id_candidat = c.Id_candidat,
